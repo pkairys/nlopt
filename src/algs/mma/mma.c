@@ -289,7 +289,7 @@ nlopt_result mma_minimize(unsigned n, nlopt_func f, void *f_data,
 				i, y[i], i, dd.gcval[i]);
 	       }
 
-	       fcur = f(n, xcur, dfdx_cur, f_data);
+	       fcur = f(n, xcur, NULL, f_data);
 	       ++ *(stop->nevals_p);
 		   ++inner_nevals;
 	       if (nlopt_stop_forced(stop)) {
@@ -326,6 +326,7 @@ nlopt_result mma_minimize(unsigned n, nlopt_func f, void *f_data,
 		    || (!feasible && infeasibility_cur < infeasibility)) {
 		    if (verbose && !feasible_cur)
 			 printf("MMA - using infeasible point?\n");
+		    fcur = f(n, xcur, dfdx_cur, f_data);
 		    dd.fval = *minf = fcur;
 		    infeasibility = infeasibility_cur;
 		    memcpy(fcval, fcval_cur, sizeof(double)*m);
